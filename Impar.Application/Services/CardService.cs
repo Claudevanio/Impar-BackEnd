@@ -18,13 +18,22 @@ public sealed class CardService : ICardService
 
     public async Task Create(CreateCardDto dto, CancellationToken cancellationToken)
     {
-        var newPhoto = Photo.Create(dto.Base64);
+        try
+        {
+            var newPhoto = Photo.Create(dto.Base64);
 
-        await _photoRepository.Create(newPhoto, cancellationToken);
+            await _photoRepository.Create(newPhoto, cancellationToken);
 
-        var newCard = Card.Create(dto.Name, newPhoto);
+            var newCard = Card.Create(dto.Name, newPhoto);
 
-        await _cardRepository.Create(newCard, cancellationToken);
+            await _cardRepository.Create(newCard, cancellationToken);
+        }
+        catch (Exception e)
+        {
+
+            throw e;
+        }
+     
     }
 
     public async Task<ResultPaginated<Card>> GetAll(GetAllCardInputDto filter, CancellationToken cancellationToken)
