@@ -40,10 +40,11 @@ public class CardRepository : ICardRepository
             .Take(filter.Size)
             .ToListAsync(cancellationToken);
 
-        var count = await _dbContext.Cards.CountAsync(x => x.Status == CardStatus.Active, cancellationToken);
+        var totalItems = await cardsQuery.CountAsync(cancellationToken);
 
+        var totalPages = (int)Math.Ceiling((double)totalItems / filter.Size);
 
-        return new ResultPaginated<Card>(filter.Page, filter.Size, count, cards);
+        return new ResultPaginated<Card>(filter.Page, filter.Size, totalItems, totalPages, cards);
     }
 
     public async Task Update(Card card, CancellationToken cancellationToken)

@@ -7,7 +7,7 @@ public class ResultPaginated<T>
         Pagination = new Pagination();
     }
 
-    public ResultPaginated(int page, int pageSize, int total, List<T> itens) : this()
+    public ResultPaginated(int page, int pageSize, int total, int totalPages, List<T> itens) : this()
     {
         Itens = itens;
         Pagination = new Pagination
@@ -15,7 +15,8 @@ public class ResultPaginated<T>
             TotalInPage = itens.Count,
             Page = page,
             PageSize = pageSize,
-            Total = total
+            Total = total,
+            TotalPages = totalPages,
         };
     }
 
